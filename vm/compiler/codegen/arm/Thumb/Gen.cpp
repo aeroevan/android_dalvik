@@ -415,3 +415,11 @@ static void genArrayPut(CompilationUnit *cUnit, MIR *mir, OpSize size,
         HEAP_ACCESS_SHADOW(false);
     }
 }
+
+static void genMultiplyByShiftAndReverseSubtract(CompilationUnit *cUnit,
+        RegLocation rlSrc, RegLocation rlResult, int lit)
+{
+    int tReg = dvmCompilerAllocTemp(cUnit);
+    opRegRegImm(cUnit, kOpLsl, tReg, rlSrc.lowReg, lit);
+    opRegRegReg(cUnit, kOpSub, rlResult.lowReg, tReg, rlSrc.lowReg);
+}

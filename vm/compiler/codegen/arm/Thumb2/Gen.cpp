@@ -595,3 +595,10 @@ static void genArrayPut(CompilationUnit *cUnit, MIR *mir, OpSize size,
         HEAP_ACCESS_SHADOW(false);
     }
 }
+
+static void genMultiplyByShiftAndReverseSubtract(CompilationUnit *cUnit,
+        RegLocation rlSrc, RegLocation rlResult, int lit)
+{
+    newLIR4(cUnit, kThumb2RsbRRR, rlResult.lowReg, rlSrc.lowReg, rlSrc.lowReg,
+            encodeShift(kArmLsl, lit));
+}
