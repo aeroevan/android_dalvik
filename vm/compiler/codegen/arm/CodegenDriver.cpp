@@ -3704,7 +3704,7 @@ static void handlePCReconstruction(CompilationUnit *cUnit,
      * We should never reach here through fall-through code, so insert
      * a bomb to signal troubles immediately.
      */
-    if (numElems) {
+    if ((numElems) || (cUnit->jitMode == kJitLoop)) {
         newLIR0(cUnit, kThumbUndefined);
     }
 
@@ -4360,6 +4360,7 @@ void dvmCompilerMIR2LIR(CompilationUnit *cUnit)
                                  (LIR *) cUnit->loopAnalysis->branchToBody);
             dvmCompilerAppendLIR(cUnit,
                                  (LIR *) cUnit->loopAnalysis->branchToPCR);
+            cUnit->loopAnalysis->branchesAdded = true;
         }
 
         if (headLIR) {
